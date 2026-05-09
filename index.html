@@ -11,21 +11,8 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── PALETTE CONSTANTS ────────────────────────────── */
+/* ── DARK TOKENS — default state ─────────────────── */
 :root {
-–mint:    #00DFC0;
-–lime-l:  #B8DC00;
-–lime-d:  #C8F000;
-–tang:    #FF7A00;
-–success: #3AAF6E;
-–warning: #C8A800;
-–error:   #D94050;
-–ease:    cubic-bezier(0.16, 1, 0.3, 1);
-–t:       0.42s;
-}
-
-/* ── DARK = DEFAULT (no class required) ───────────── */
-body {
 –bg:         #152030;
 –bg-raised:  #1C2C40;
 –text:       #FFFFFF;
@@ -39,20 +26,13 @@ body {
 –knob-x:     22px;
 –knob-bg:    #C8F000;
 –knob-track: #1C2C40;
+–ring-color: #FF7A00;
 
-background: var(–bg);
-color: var(–text);
-font-family: ‘DM Sans’, sans-serif;
-font-weight: 300;
-min-height: 100vh;
-overflow-x: hidden;
--webkit-font-smoothing: antialiased;
-transition:
-background var(–t) var(–ease),
-color var(–t) var(–ease);
+–ease: cubic-bezier(0.16, 1, 0.3, 1);
+–t:    0.42s;
 }
 
-/* ── LIGHT = class “light” on body ───────────────── */
+/* ── LIGHT TOKENS — body.light override ──────────── */
 body.light {
 –bg:         #F0F4F8;
 –bg-raised:  #FFFFFF;
@@ -67,6 +47,22 @@ body.light {
 –knob-x:     0px;
 –knob-bg:    #7A8899;
 –knob-track: #E8EDF3;
+–ring-color: #00DFC0;
+}
+
+/* ── BASE ─────────────────────────────────────────── */
+html, body { min-height: 100%; }
+
+body {
+background: var(–bg);
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+font-weight: 300;
+overflow-x: hidden;
+-webkit-font-smoothing: antialiased;
+transition:
+background var(–t) var(–ease),
+color var(–t) var(–ease);
 }
 
 /* ── ANIMATIONS ───────────────────────────────────── */
@@ -74,7 +70,10 @@ body.light {
 from { opacity: 0; transform: translateY(22px); }
 to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadein {
+from { opacity: 0; }
+to   { opacity: 1; }
+}
 
 .a1 { animation: up     0.75s var(–ease) 0.05s both; }
 .a2 { animation: up     0.75s var(–ease) 0.16s both; }
@@ -114,7 +113,6 @@ color: var(–dot);
 transition: color var(–t) var(–ease);
 }
 
-/* toggle */
 .toggle {
 width: 48px;
 height: 26px;
@@ -148,7 +146,6 @@ background var(–t) var(–ease);
 /* ── HERO ─────────────────────────────────────────── */
 .hero {
 min-height: 100vh;
-min-height: 100svh;
 padding: 112px 24px 72px;
 display: flex;
 flex-direction: column;
@@ -160,7 +157,7 @@ overflow: hidden;
 .hero-ring {
 position: absolute;
 border-radius: 50%;
-border: 1px solid var(–accent);
+border: 1px solid var(–ring-color);
 pointer-events: none;
 transition: border-color var(–t) var(–ease);
 }
@@ -296,8 +293,7 @@ align-items: center;
 gap: 14px;
 }
 .sh-line {
-flex: 1;
-height: 1px;
+flex: 1; height: 1px;
 background: var(–border);
 transition: background var(–t) var(–ease);
 }
@@ -417,26 +413,25 @@ transition: color var(–t) var(–ease);
 
 /* ── RESPONSIVE ───────────────────────────────────── */
 @media (min-width: 600px) {
-nav             { padding: 0 40px; }
-.hero           { padding: 120px 40px 80px; }
-.section-head   { padding: 80px 40px 0; }
-.cards          { padding: 20px 40px 0; grid-template-columns: 1fr 1fr; }
-footer          { padding: 32px 40px 56px; }
+nav           { padding: 0 40px; }
+.hero         { padding: 120px 40px 80px; }
+.section-head { padding: 80px 40px 0; }
+.cards        { padding: 20px 40px 0; grid-template-columns: 1fr 1fr; }
+footer        { padding: 32px 40px 56px; }
 }
 
 @media (min-width: 960px) {
-nav             { padding: 0 64px; }
-.hero           { padding: 120px 64px 80px; }
-.section-head   { padding: 80px 64px 0; }
-.cards          { padding: 20px 64px 0; }
-footer          { padding: 32px 64px 64px; }
-.hero-tagline   { max-width: 440px; }
+nav           { padding: 0 64px; }
+.hero         { padding: 120px 64px 80px; }
+.section-head { padding: 80px 64px 0; }
+.cards        { padding: 20px 64px 0; }
+footer        { padding: 32px 64px 64px; }
+.hero-tagline { max-width: 440px; }
 }
 </style>
 
 </head>
 <body>
-<!-- dark is the DEFAULT (no class). Light is opt-in via class "light". -->
 
 <nav class="a1">
   <div class="logo">IA<span class="dot">.</span></div>
@@ -455,10 +450,7 @@ footer          { padding: 32px 64px 64px; }
       </div>
       <div class="hero-ia a2">IA<span class="dot">.</span></div>
       <div class="hero-name a3">Improbable Adventures</div>
-      <div class="hero-tagline a4">
-        A creative space for ideas that don't fit anywhere else.
-        The improbable is just the probable that hasn't shipped yet.
-      </div>
+      <div class="hero-tagline a4">A creative space for ideas that don't fit anywhere else. The improbable is just the probable that hasn't shipped yet.</div>
       <div class="cta a4">
         <button class="btn btn-fill">Start something →</button>
         <button class="btn btn-ghost">Learn more</button>
@@ -487,7 +479,7 @@ footer          { padding: 32px 64px 64px; }
       <div class="card-pip" style="background:#00DFC0;"></div>
       <div class="card-body">
         <div class="card-title">Agent Harness</div>
-        <div class="card-meta">Incubating</div>
+        <div class="card-meta">Incubating · 3 days</div>
       </div>
       <span class="card-badge" style="background:rgba(0,223,192,0.15); color:#00DFC0;">Live</span>
     </div>
@@ -495,7 +487,7 @@ footer          { padding: 32px 64px 64px; }
       <div class="card-pip" style="background:#FF7A00;"></div>
       <div class="card-body">
         <div class="card-title">Advanced Agent Tools</div>
-        <div class="card-meta">Building</div>
+        <div class="card-meta">Building · 1 week</div>
       </div>
       <span class="card-badge" style="background:rgba(255,122,0,0.15); color:#FF7A00;">Building</span>
     </div>
@@ -525,19 +517,22 @@ footer          { padding: 32px 64px 64px; }
 </footer>
 
 <script>
-  (function() {
+  (function () {
     var btn = document.getElementById('themeToggle');
     if (!btn) return;
 
-    // respect saved preference
-    var saved = localStorage.getItem('ia-theme');
-    if (saved === 'light') document.body.classList.add('light');
+    // apply saved preference
+    try {
+      if (localStorage.getItem('ia-theme') === 'light') {
+        document.body.classList.add('light');
+      }
+    } catch (e) {}
 
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function () {
       var isLight = document.body.classList.toggle('light');
-      try { localStorage.setItem('ia-theme', isLight ? 'light' : 'dark'); } catch(e) {}
+      try { localStorage.setItem('ia-theme', isLight ? 'light' : 'dark'); } catch (e) {}
     });
-  })();
+  }());
 </script>
 
 </body>

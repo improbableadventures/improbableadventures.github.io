@@ -431,7 +431,7 @@ footer        { padding: 32px 64px 64px; }
 </style>
 
 </head>
-<body>
+<body class="light">
 
 <nav class="a1">
   <div class="logo">IA<span class="dot">.</span></div>
@@ -521,10 +521,10 @@ footer        { padding: 32px 64px 64px; }
     var btn = document.getElementById('themeToggle');
     if (!btn) return;
 
-    // apply saved preference
+    // light is the default theme; only remove it when dark was saved
     try {
-      if (localStorage.getItem('ia-theme') === 'light') {
-        document.body.classList.add('light');
+      if (localStorage.getItem('ia-theme') === 'dark') {
+        document.body.classList.remove('light');
       }
     } catch (e) {}
 
